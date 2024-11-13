@@ -1,0 +1,91 @@
+<p-table [value]="tariffs()" [tableStyle]="{ 'min-width': '60rem' }">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      Tariffs @if(isAdmin()){
+      <p-button (onClick)="openModal()" label="Create tariff" />
+      }
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Internet speed</th>
+      <th>Data limit</th>
+      <th>Television</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-tariff>
+    <tr>
+      <td>{{ tariff.name }}</td>
+      <td>
+        {{ tariff.description }}
+      </td>
+      <td>{{ tariff.internetSpeed }} mbs</td>
+      <td>{{ tariff.dataLimit ? tariff.dataLimit + 'GB' : 'None' }}</td>
+      <td>
+        @if(tariff.televisionOption?.description) {
+        {{ tariff.televisionOption.description }} <p-tag [value]="tariff.televisionOption.packageType" [severity]="'info'" />
+        }@else { None }
+      </td>
+      <td>{{ tariff.price | currency : 'USD' }}</td>
+      <td>
+        @if(!isAdmin()) {
+        <p-button class="mr-2" severity="help" label="Ask" /><p-button (onClick)="selectTariff(tariff)" severity="success" label="Choose" />
+
+        }@else {
+        <p-button severity="success" label="Edit" />
+        }
+      </td>
+      <!-- <td><p-tag [value]="product.inventoryStatus" [severity]="'success'"/></td> -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between"></div>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  header="{{ editing() ? 'Edit Tariff' : 'Create Tariff' }}"
+  [(visible)]="displayModal"
+  modal="true"
+  [closable]="false"
+  [style]="{ width: '500px' }"
+>
+  <form class="form" [formGroup]="tariffForm" (ngSubmit)="createTariff()">
+    <!-- Title -->
+    <div class="p-field form-item">
+      <label for="name">Name</label>
+      <input id="name" pInputText [formControl]="tariffForm.controls.name" />
+    </div>
+
+    <div class="p-field form-item">
+      <label for="description">Description</label>
+      <textarea id="description" pInputTextarea [formControl]="tariffForm.controls.description"></textarea>
+    </div>
+
+    <div class="p-field form-item">
+      <label for="dataLimit">Data limit (GB)</label>
+      <input type="number" id="dataLimit" pInputText [formControl]="tariffForm.controls.dataLimit" />
+    </div>
+
+    <div class="p-field form-item">
+      <label for="internetSpeed">Internet speed (mbs)</label>
+      <input type="number" id="internetSpeed" pInputText [formControl]="tariffForm.controls.internetSpeed" />
+    </div>
+
+    <div class="p-field form-item">
+      <label for="price">Price ($)</label>
+      <input type="number" id="price" pInputText [formControl]="tariffForm.controls.price" />
+    </div>
+
+    <div class="modal-buttons">
+      <p-button size="small" severity="info" type="button" label="Cancel" icon="pi pi-times" (click)="closeModal()"></p-button>
+      <p-button size="small" severity="success" type="submit" label="Save" icon="pi pi-check" [disabled]="tariffForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<app-tariff-modal [displayModal]="displayModal" [tariff]="selectedTariff()"></app-tariff-modal>

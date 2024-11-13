@@ -1,0 +1,36 @@
+<p-table [value]="subscriptions()" [tableStyle]="{ 'min-width': '60rem' }">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">Your subscriptions:</div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Tariff</th>
+      <th>Television Option</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Status</th>
+      <th style="width: 10rem"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-subscription>
+    <tr>
+      <td>{{ subscription.tariff.name }}</td>
+      <td>{{ subscription.tariff.televisionOption ? subscription.tariff.televisionOption.packageType : 'None' }}</td>
+      <td>
+        {{ subscription.startDate | date : 'dd/MM/yyyy' }}
+      </td>
+      <td>
+        {{ (subscription.endDate | date : 'dd/MM/yyyy') ?? '-' }}
+      </td>
+      <td><p-tag [value]="subscription.isActive ? 'Active' : 'Non-Active'" [severity]="subscription.isActive ? 'success' : 'secondary'" /></td>
+      <td>
+        <p-button (onClick)="selectTariff(subscription.tariff)" class="mr-2" severity="help" label="See more" />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between"></div>
+  </ng-template>
+</p-table>
+
+<app-tariff-modal [displayModal]="displayModal" [tariff]="selectedTariff()"></app-tariff-modal>
