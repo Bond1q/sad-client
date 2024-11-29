@@ -1,0 +1,11 @@
+::ng-deep .p-toolbar {
+  flex-wrap: nowrap !important;
+}
+
+.container {
+  padding: 3rem 2rem;
+
+  @media screen and (max-width: 1250px) {
+    padding: 1rem 0;
+  }
+}

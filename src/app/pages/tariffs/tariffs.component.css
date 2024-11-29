@@ -35,3 +35,36 @@ p-calendar {
   justify-content: end;
   gap: 10px;
 }
+
+.tariff-img {
+  width: 350px;
+  height: 250px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 1250px) {
+    justify-content: center;
+  }
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.tariff-property {
+  font-size: 18px;
+  font-weight: 500;
+}
+.tariff-property-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+::ng-deep .p-card-footer {
+  padding: 0 !important;
+}

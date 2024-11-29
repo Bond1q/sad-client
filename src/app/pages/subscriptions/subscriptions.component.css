@@ -35,3 +35,8 @@ p-calendar {
   justify-content: end;
   gap: 10px;
 }
+
+::ng-deep .p-datatable {
+  border-radius: 10px;
+  overflow: hidden;
+}

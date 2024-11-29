@@ -1,4 +1,4 @@
-<h2>Chat with manager</h2>
+<h2 class="title">Chat with manager</h2>
 
 <div class="chat-container">
   <div class="messages-container">
@@ -13,6 +13,9 @@
 
   <div class="input-container">
     <input [(ngModel)]="newMessage" type="text" placeholder="Type a message..." class="p-inputtext p-mr-2 p-flex-grow-1" />
-    <button pButton type="button" label="Send" icon="pi pi-send" (click)="sendMessage()"></button>
+    <button class="big-btn" pButton type="button" label="Send" icon="pi pi-send" (click)="sendMessage()"></button>
+    <p-button class="small-btn" icon="pi pi-send" (click)="sendMessage()" />
+
+    <!-- <button class="small-btn" pButton type="button" icon="pi pi-send" (click)="sendMessage()"></button> -->
   </div>
 </div>

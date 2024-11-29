@@ -8,7 +8,7 @@
 
 h2 {
   font-size: 25px;
-  color: #393939;
+  color: #e9e9e9;
 }
 
 .chat-container {
@@ -21,6 +21,10 @@ h2 {
   flex-direction: column;
   height: calc(100vh - 300px); /* Full viewport height */
   background-color: #f9f9f9;
+
+  @media screen and (max-width: 1250px) {
+    width: 100%;
+  }
 }
 
 /* Messages container */
@@ -40,6 +44,9 @@ h2 {
   font-size: 18px;
 
   width: fit-content;
+  @media screen and (max-width: 1250px) {
+    font-size: 14px;
+  }
 }
 
 .message-sent {
@@ -63,8 +70,25 @@ h2 {
   padding: 0.5rem;
   background-color: #ffffff;
   border-top: 1px solid #ddd;
+  .small-btn {
+    display: none;
+  }
+  @media screen and (max-width: 1250px) {
+    /* flex-direction: column; */
+    gap: 10px;
+    .small-btn {
+      display: block;
+    }
+    .big-btn {
+      display: none;
+    }
+  }
 
   input {
     width: 500px;
+
+    @media screen and (max-width: 1250px) {
+      width: 250px;
+    }
   }
 }
