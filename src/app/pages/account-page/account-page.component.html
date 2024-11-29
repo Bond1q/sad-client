@@ -1,0 +1,51 @@
+<div class="user-info-container p-p-4">
+  <h2 class="p-mb-4">User Information</h2>
+  <form class="flex flex-column gap-3" [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <div class="p-field p-mb-3">
+      <label for="firstName">Name</label>
+      <input id="firstName" type="text" pInputText formControlName="firstName" />
+      <small *ngIf="userInfoForm.get('firstName')?.invalid && userInfoForm.get('firstName')?.touched" class="p-error"> Name is required. </small>
+    </div>
+
+    <!-- lastName -->
+    <div class="p-field p-mb-3">
+      <label for="lastName">Surname</label>
+      <input id="lastName" type="text" pInputText formControlName="lastName" />
+      <small *ngIf="userInfoForm.get('lastName')?.invalid && userInfoForm.get('lastName')?.touched" class="p-error">
+        Surname is required.
+      </small>
+    </div>
+
+    <!-- Email -->
+    <div class="p-field p-mb-3">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText formControlName="email" />
+      <small *ngIf="userInfoForm.get('email')?.invalid && userInfoForm.get('email')?.touched" class="p-error"> Valid email is required. </small>
+    </div>
+
+    <!-- Phone -->
+    <div class="p-field p-mb-3">
+      <label for="phone">Phone</label>
+      <input id="phone" type="text" pInputText formControlName="phone" />
+      <small *ngIf="userInfoForm.get('phone')?.invalid && userInfoForm.get('phone')?.touched" class="p-error">
+        Valid phone number is required.
+      </small>
+    </div>
+
+    <!-- Address -->
+    <div class="p-field p-mb-3">
+      <label for="address">Address</label>
+      <input [disabled]="true" id="address" pInputText formControlName="address" />
+      <small *ngIf="userInfoForm.get('address')?.invalid && userInfoForm.get('address')?.touched" class="p-error"> Address is required. </small>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="p-mt-3">
+      <button pButton type="submit" label="Save Changes" [disabled]="userInfoForm.invalid" class="p-button-success"></button>
+    </div>
+  </form>
+  <div class="mt-4">
+    <h3 class="font-semibold active-sub">Active subscription: {{ activeUserSubscription ? activeUserSubscription : 'None' }}</h3>
+  </div>
+</div>

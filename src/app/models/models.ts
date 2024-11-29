@@ -36,6 +36,15 @@ export interface User {
   firstName: string;
   lastName: string;
   phone?: string;
-  address?: string;
+  address?: Address;
+  subscriptions?: Subscription[];
   role: Role;
+}
+
+export interface Address {
+  city: string;
+  country: string;
+  id: number;
+  postalCode: string;
+  streetName: string;
 }

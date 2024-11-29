@@ -11,6 +11,8 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { TariffModalComponent } from '../../components/tariff-modal/tariff-modal.component';
+import { ArrangeTariffModalComponent } from '../../components/arrange-tariff-modal/arrange-tariff-modal.component';
+import { CommunicationModalComponent } from '../../components/communication-modal/communication-modal.component';
 
 @Component({
   selector: 'app-tariffs',
@@ -25,6 +27,8 @@ import { TariffModalComponent } from '../../components/tariff-modal/tariff-modal
     InputTextareaModule,
     InputTextModule,
     TariffModalComponent,
+    ArrangeTariffModalComponent,
+    CommunicationModalComponent,
   ],
   templateUrl: './tariffs.component.html',
   styleUrl: './tariffs.component.css',
@@ -37,16 +41,23 @@ export class TariffsComponent implements OnInit {
   tariffs = signal<Tariff[]>([]);
 
   editing = signal(false);
-  displayModal = false;
+
+  displayInfoModal = false;
+  displayArrangeModal = false;
+  displayCommunicationModal = false;
+
   isAdmin = this.apiService.isAdmin;
 
   tariffForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    price: [0, Validators.required],
-    description: ['', Validators.required],
-    dataLimit: [0, Validators.required],
-    internetSpeed: [0, Validators.required],
-    // televisionOption: [0, Validators.required],
+    tariffName: [''],
+    startDate: ['', Validators.required],
+    endDate: [''],
+    userId: [0],
+    tariffId: [0],
+    includeTelevision: [null],
+    televisionPlanType: [''],
+    televisionPrice: [0],
+    totalPrice: [0],
   });
 
   ngOnInit(): void {
@@ -55,12 +66,23 @@ export class TariffsComponent implements OnInit {
 
   selectTariff(tariff: Tariff) {
     this.selectedTariff.set(tariff);
-    this.displayModal = true;
+
+    const { name, price, id, televisionOption } = tariff;
+    this.tariffForm.reset();
+    this.tariffForm.controls.tariffName.setValue(name, { emitEvent: false });
+    this.tariffForm.controls.totalPrice.setValue(price, { emitEvent: false });
+    this.tariffForm.controls.tariffId.setValue(id, { emitEvent: false });
+    this.tariffForm.controls.televisionPlanType.setValue(televisionOption?.packageType ?? '', { emitEvent: false });
+    this.tariffForm.controls.televisionPrice.setValue(televisionOption?.price ?? 0, { emitEvent: false });
   }
 
   createTariff() {
     this.apiService
-      .createTariff({ ...this.tariffForm.value, id: this.tariffs.length + 1 } as any)
+      .createSubscriptions({
+        ...this.tariffForm.value,
+        userId: 1,
+        includeTelevision: !!this.tariffForm.value.includeTelevision?.['length'],
+      } as any)
       .pipe(
         take(1),
         tap(() => this.loadTariffs())
@@ -68,12 +90,16 @@ export class TariffsComponent implements OnInit {
       .subscribe();
   }
 
-  closeModal() {
-    this.displayModal = false;
+  toggleArrangeModal() {
+    this.displayArrangeModal = !this.displayArrangeModal;
   }
 
-  openModal() {
-    this.displayModal = true;
+  toggleInfoModal() {
+    this.displayInfoModal = !this.displayInfoModal;
+  }
+
+  toggleCommunicationModal() {
+    this.displayCommunicationModal = !this.displayCommunicationModal;
   }
 
   loadTariffs() {
@@ -82,8 +108,6 @@ export class TariffsComponent implements OnInit {
       .pipe(
         take(1),
         tap((data) => {
-          console.log(data);
-
           return this.tariffs.set(data);
         })
       )

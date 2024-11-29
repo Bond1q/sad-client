@@ -1,0 +1,38 @@
+@if (tariffForm.value) {
+<p-dialog
+  [header]="'Tariff: ' + tariffForm.value.tariffName"
+  [visible]="displayModal"
+  modal="true"
+  [closable]="false"
+  [style]="{ width: '500px',  }"
+>
+  <form class="form" [formGroup]="tariffForm" (ngSubmit)="createSubscription.emit()">
+    <input class="hide-input" />
+    <div class="p-field form-item">
+      <label for="startDate">Start Date</label>
+      <p-calendar [minDate]="minDate" id="startDate" formControlName="startDate" dateFormat="dd-mm-yy"></p-calendar>
+    </div>
+
+    <div class="p-field form-item">
+      <label for="endDate">End Date</label>
+      <p-calendar dateFormat="dd-mm-yy" id="endDate" formControlName="endDate"></p-calendar>
+    </div>
+
+    <div class="p-field form-item">
+      <div class="text-lg font-medium mb-2">Television</div>
+      <p-checkbox [value]="tariffForm.value.televisionPlanType" formControlName="includeTelevision" inputId="includeTelevision" />
+      <label class="ml-2 text-lg font-medium" for="includeTelevision"
+        >{{ tariffForm.value.televisionPlanType }} ({{ tariffForm.value.televisionPrice | currency : 'USD' }})
+      </label>
+    </div>
+
+    <div class="text-xl text-right font-semibold mt-2">Total price: {{ tariffForm.value.totalPrice | currency : 'USD' }}</div>
+
+    <div class="flex gap-2 justify-content-end mt-3">
+      <p-button size="small" severity="info" type="button" label="Cancel" icon="pi pi-times" (onClick)="displayModalChange.emit()"></p-button>
+      <p-button size="small" severity="success" type="submit" label="Save" icon="pi pi-check" [disabled]="tariffForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+}

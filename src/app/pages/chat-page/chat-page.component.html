@@ -1,0 +1,18 @@
+<h2>Chat with manager</h2>
+
+<div class="chat-container">
+  <div class="messages-container">
+    <div
+      *ngFor="let message of messages"
+      [ngClass]="{ 'message-sent': message.sentByMe, 'message-received': !message.sentByMe }"
+      class="message p-shadow-2 p-p-2 p-rounded"
+    >
+      {{ message.text }}
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input [(ngModel)]="newMessage" type="text" placeholder="Type a message..." class="p-inputtext p-mr-2 p-flex-grow-1" />
+    <button pButton type="button" label="Send" icon="pi pi-send" (click)="sendMessage()"></button>
+  </div>
+</div>

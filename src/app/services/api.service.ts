@@ -23,8 +23,12 @@ export class ApiService {
     return this.http.get<User[]>(`${this.url}/users`);
   }
 
-  login(email: string, password: string) {
-    return this.http.post<boolean>(`${this.url}/users/login`, { email, password });
+  getUsersById(id: number) {
+    return this.http.get<User>(`${this.url}/users/${id}`);
+  }
+
+  editUser(user: User) {
+    return this.http.put<boolean>(`${this.url}/users`, { ...user });
   }
 
   getSubscriptions() {
@@ -33,6 +37,10 @@ export class ApiService {
 
   createSubscriptions(subscription: Omit<Subscription, 'id'>) {
     return this.http.post<Subscription[]>(`${this.url}/subscriptions`, { ...subscription });
+  }
+
+  stopSubscriptions(subscriptionId: number) {
+    return this.http.post<void>(`${this.url}/subscriptions/stop/${subscriptionId}`, {});
   }
 
   toggleIsAdmin() {

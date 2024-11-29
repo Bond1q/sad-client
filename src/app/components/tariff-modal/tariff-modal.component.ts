@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { DialogModule } from 'primeng/dialog';
 import { Tariff } from '../../models/models';
@@ -15,4 +15,5 @@ import { DividerModule } from 'primeng/divider';
 export class TariffModalComponent {
   @Input() tariff: Tariff | null = null;
   @Input() displayModal = false;
+  @Output() displayModalChange = new EventEmitter<boolean>();
 }

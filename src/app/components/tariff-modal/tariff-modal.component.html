@@ -1,6 +1,6 @@
-<p-dialog [header]="'Tariff: ' + tariff?.name" [(visible)]="displayModal" modal="true" [closable]="false" [style]="{ width: '500px' }">
-  @if(tariff; as tariff) {
-  <div class="close-icon"><i class="pi pi-times" style="font-size: 1.5rem" (click)="displayModal = false"></i></div>
+<p-dialog [header]="'Tariff: ' + tariff?.name" [visible]="displayModal" modal="true" [closable]="false" [style]="{ width: '700px' }">
+  @if (tariff; as tariff) {
+  <div class="close-icon"><i class="pi pi-times" style="font-size: 1.5rem" (click)="displayModalChange.emit()"></i></div>
   <div class="flex flex-column gap-5">
     <div class="flex flex-column gap-2">
       <h3 class="m-0">Description</h3>
@@ -14,9 +14,12 @@
       <h3 class="m-0">Data limit</h3>
       <p class="m-0">{{ tariff?.dataLimit ? tariff.dataLimit + ' GB' : 'None' }}</p>
     </div>
+    <div class="flex flex-column gap-2">
+      <h3 class="m-0">Price</h3>
+      <p class="m-0">{{ tariff?.price | currency : 'USD' }}</p>
+    </div>
     @if (tariff?.televisionOption; as televisionOption) {
     <div>
-      <p-divider />
       <div class="flex flex-column gap-3">
         <h2 class="m-0">Television</h2>
         <div class="flex flex-column gap-1">
@@ -32,7 +35,6 @@
           <p class="m-0">{{ televisionOption.price | currency : 'USD' }}</p>
         </div>
       </div>
-      <p-divider />
     </div>
     } @else {
     <div class="flex flex-column gap-2">
@@ -40,11 +42,6 @@
       <p class="m-0">None</p>
     </div>
     }
-
-    <div class="flex flex-column gap-2">
-      <h3 class="m-0">Price</h3>
-      <p class="m-0">{{ tariff?.price | currency : 'USD' }}</p>
-    </div>
   </div>
   }
 </p-dialog>

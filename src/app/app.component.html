@@ -4,7 +4,7 @@
     <button pButton label="Subscriptions" class="p-button-text" routerLink="/subscriptions"></button>
   </div>
   <div class="p-toolbar-group-right">
-    <button pButton label="Exit" class="p-button-text" (click)="apiService.toggleIsAdmin()"></button>
+    <button routerLink="/account" pButton [label]="user()" class="p-button-text" (click)="apiService.toggleIsAdmin()"></button>
   </div>
 </p-toolbar>
 

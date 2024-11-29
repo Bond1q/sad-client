@@ -1,10 +1,6 @@
 <p-table [value]="tariffs()" [tableStyle]="{ 'min-width': '60rem' }">
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      Tariffs @if(isAdmin()){
-      <p-button (onClick)="openModal()" label="Create tariff" />
-      }
-    </div>
+    <div class="flex align-items-center justify-content-between">Tariffs</div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -31,13 +27,10 @@
         }@else { None }
       </td>
       <td>{{ tariff.price | currency : 'USD' }}</td>
-      <td>
-        @if(!isAdmin()) {
-        <p-button class="mr-2" severity="help" label="Ask" /><p-button (onClick)="selectTariff(tariff)" severity="success" label="Choose" />
-
-        }@else {
-        <p-button severity="success" label="Edit" />
-        }
+      <td class="flex gap-2">
+        <p-button (onClick)="toggleCommunicationModal()" severity="help" label="Ask" />
+        <p-button (onClick)="selectTariff(tariff); toggleInfoModal()" severity="info" label="Info" />
+        <p-button (onClick)="selectTariff(tariff); toggleArrangeModal()" severity="success" label="Choose" />
       </td>
       <!-- <td><p-tag [value]="product.inventoryStatus" [severity]="'success'"/></td> -->
     </tr>
@@ -47,15 +40,8 @@
   </ng-template>
 </p-table>
 
-<p-dialog
-  header="{{ editing() ? 'Edit Tariff' : 'Create Tariff' }}"
-  [(visible)]="displayModal"
-  modal="true"
-  [closable]="false"
-  [style]="{ width: '500px' }"
->
+<!-- <p-dialog header="{{ 'Create Tariff' }}" [(visible)]="displayModal" modal="true" [closable]="false" [style]="{ width: '500px' }">
   <form class="form" [formGroup]="tariffForm" (ngSubmit)="createTariff()">
-    <!-- Title -->
     <div class="p-field form-item">
       <label for="name">Name</label>
       <input id="name" pInputText [formControl]="tariffForm.controls.name" />
@@ -86,6 +72,13 @@
       <p-button size="small" severity="success" type="submit" label="Save" icon="pi pi-check" [disabled]="tariffForm.invalid"></p-button>
     </div>
   </form>
-</p-dialog>
+</p-dialog> -->
 
-<app-tariff-modal [displayModal]="displayModal" [tariff]="selectedTariff()"></app-tariff-modal>
+<app-tariff-modal [displayModal]="displayInfoModal" (displayModalChange)="toggleInfoModal()" [tariff]="selectedTariff()"></app-tariff-modal>
+<app-arrange-tariff-modal
+  (createSubscription)="createTariff()"
+  [displayModal]="displayArrangeModal"
+  (displayModalChange)="toggleArrangeModal()"
+  [tariffForm]="tariffForm"
+/>
+<app-communication-modal [displayModal]="displayCommunicationModal" (displayModalChange)="toggleCommunicationModal()"></app-communication-modal>

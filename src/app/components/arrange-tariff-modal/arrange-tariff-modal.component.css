@@ -1,0 +1,22 @@
+.close-icon {
+  top: 5px;
+  right: 5px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.hide-input {
+  visibility: hidden;
+  position: absolute;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+::ng-deep .p-datepicker {
+  transform: scale(0.7);
+  top: -15px !important;
+}

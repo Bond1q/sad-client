@@ -9,7 +9,7 @@
       <th>Start date</th>
       <th>End date</th>
       <th>Status</th>
-      <th style="width: 10rem"></th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-subscription>
@@ -23,8 +23,11 @@
         {{ (subscription.endDate | date : 'dd/MM/yyyy') ?? '-' }}
       </td>
       <td><p-tag [value]="subscription.isActive ? 'Active' : 'Non-Active'" [severity]="subscription.isActive ? 'success' : 'secondary'" /></td>
-      <td>
-        <p-button (onClick)="selectTariff(subscription.tariff)" class="mr-2" severity="help" label="See more" />
+      <td class="flex gap-2 justify-content-end">
+        <p-button (onClick)="selectTariff(subscription.tariff)" severity="help" label="See more" />
+        @if (subscription.isActive) {
+        <p-button (onClick)="stopSubscription(subscription.id)" severity="info" label="Stop subscription" />
+        }
       </td>
     </tr>
   </ng-template>
@@ -33,4 +36,6 @@
   </ng-template>
 </p-table>
 
-<app-tariff-modal [displayModal]="displayModal" [tariff]="selectedTariff()"></app-tariff-modal>
+<app-tariff-modal [displayModal]="displayModal" (displayModalChange)="closeModal()" [tariff]="selectedTariff()"></app-tariff-modal>
+
+<p-toast />

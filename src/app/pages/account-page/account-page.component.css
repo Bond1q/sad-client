@@ -1,0 +1,36 @@
+/* Container styling */
+.user-info-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Field labels */
+.p-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Error messages */
+.p-error {
+  color: #f44336;
+  font-size: 0.875rem;
+}
+
+/* Button alignment */
+.p-button {
+  width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+.active-sub {
+  font-size: 25px;
+  color: rgb(53, 53, 53);
+}

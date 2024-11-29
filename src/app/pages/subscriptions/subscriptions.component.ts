@@ -12,6 +12,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { AccordionModule } from 'primeng/accordion';
 import { TariffModalComponent } from '../../components/tariff-modal/tariff-modal.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-subscriptions',
@@ -27,13 +29,16 @@ import { TariffModalComponent } from '../../components/tariff-modal/tariff-modal
     InputTextModule,
     TariffModalComponent,
     AccordionModule,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './subscriptions.component.html',
   styleUrl: './subscriptions.component.css',
 })
 export class SubscriptionsComponent implements OnInit {
   apiService = inject(ApiService);
   formBuilder = inject(FormBuilder);
+  messageService = inject(MessageService);
 
   subscriptions = signal<Subscription[]>([]);
   selectedTariff = signal<Tariff | null>(null);
@@ -60,16 +65,6 @@ export class SubscriptionsComponent implements OnInit {
     this.displayModal = true;
   }
 
-  // createSubscription() {
-  //   this.apiService
-  //     .createSubscription(this.subscriptionForm.value as any)
-  //     .pipe(
-  //       take(1),
-  //       tap(() => this.loadsubscriptions())
-  //     )
-  //     .subscribe();
-  // }
-
   closeModal() {
     this.displayModal = false;
   }
@@ -89,6 +84,15 @@ export class SubscriptionsComponent implements OnInit {
           return this.subscriptions.set(data);
         })
       )
+      .subscribe();
+  }
+
+  stopSubscription(id: number) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Your subscription was successfully stopped!' });
+
+    this.apiService
+      .stopSubscriptions(id)
+      .pipe(tap(() => this.loadSubscriptions()))
       .subscribe();
   }
 }

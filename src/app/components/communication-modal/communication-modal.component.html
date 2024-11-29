@@ -1,0 +1,37 @@
+<p-dialog
+  [header]="'Communicate with manager'"
+  [visible]="displayModal"
+  modal="true"
+  [closable]="false"
+  [style]="{ width: '520px', minHeight: '300px' }"
+>
+  <div class="close-icon"><i class="pi pi-times" style="font-size: 1.5rem" (click)="displayModalChange.emit()"></i></div>
+
+  <div class="flex flex-column gap-5">
+    <div class="flex flex-column gap-2">
+      <h3 class="m-0">Select the most convenient communication option:</h3>
+      <p-dropdown
+        [optionLabel]="'label'"
+        [optionValue]="'id'"
+        [options]="options"
+        [(ngModel)]="selectedCommunicationOption"
+        optionLabel="name"
+        placeholder="Select a communication option"
+      />
+    </div>
+    @if (selectedCommunicationOption === 1 ) {
+    <div>
+      <span class="font-bold block mb-2">Phone</span>
+
+      <div class="flex gap-2 align-items-center">
+        <p-inputMask mask="(999) 999-9999" [(ngModel)]="phone" placeholder="(999) 999-9999" />
+        <p-button (onClick)="onCallMeClick()" [size]="'small'" label="Call me" />
+      </div>
+    </div>
+    } @else {
+    <p-button [routerLink]="'/chat'" [size]="'small'" label="Open new chat with our manager" />
+
+    }
+  </div>
+</p-dialog>
+<p-toast />
